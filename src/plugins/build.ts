@@ -44,7 +44,10 @@ export function BuildPlugin(ctx: PWAPluginContext) {
     closeBundle: {
       sequential: true,
       order: ctx.userOptions?.integration?.closeBundleOrder,
-      async handler() {
+      async handler(error) {
+        if (error)
+          return
+
         let shouldBuild = !ctx.viteConfig.build.ssr;
         if (await ctx.isVite6) {
           shouldBuild = this.environment.config.consumer === "client";
